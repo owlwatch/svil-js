@@ -36,20 +36,20 @@ class VueLoader {
 		document.querySelectorAll( `[data-${componentAttribute}]` ).forEach( el => {
 			this.parse(el);
 		});
-		
+
 	}
 
 	async parse(el){
 		const componentAttribute = this.config.componentAttribute.replace(/-./g, x=>x.toUpperCase()[1]);
-		const propsAttribute = this.config.propsAttribute.replace(/-./g, x=>x.toUpperCase()[1]); 
+		const propsAttribute = this.config.propsAttribute.replace(/-./g, x=>x.toUpperCase()[1]);
 
 		const name = el.dataset[componentAttribute];
-		const props = el.dataset[propsAttribute] ? 
+		const props = el.dataset[propsAttribute] ?
 			JSON.parse(el.dataset[propsAttribute]) : {};
 
 		el.removeAttribute( `data-${this.config.componentAttribute}` );
-		
-		if (!this.config.components[name]) {
+
+		if ('function' !== typeof this.config.components[name]) {
 			return;
 		}
 
@@ -59,18 +59,18 @@ class VueLoader {
 		if( !Vue.default.prototype.$eventBus ){
 			Vue.default.prototype.$eventBus = new Vue.default();
 		}
-		
+
 		const component = await this.config.components[name]();
 
 		if( this.config.enableConfig ){
 			props.config = deepmerge({}, props);
 		}
 
-		
+
 		if( this.config.createApp && !this.app ){
 			this.app = this.config.createApp();
 		}
-		
+
 		if( this.app ){
 			props.app = await this.app;
 		}
@@ -81,9 +81,9 @@ class VueLoader {
 				return h(component.default, {props});
 			}
 		});
-		
+
 	}
-	
+
 }
 
 export default VueLoader;
