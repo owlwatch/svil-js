@@ -44,14 +44,15 @@ class VueLoader {
 		const propsAttribute = this.config.propsAttribute.replace(/-./g, x=>x.toUpperCase()[1]);
 
 		const name = el.dataset[componentAttribute];
-		const props = el.dataset[propsAttribute] ?
-			JSON.parse(el.dataset[propsAttribute]) : {};
-
-		el.removeAttribute( `data-${this.config.componentAttribute}` );
 
 		if ('function' !== typeof this.config.components[name]) {
 			return;
 		}
+
+		const props = el.dataset[propsAttribute] ?
+			JSON.parse(el.dataset[propsAttribute]) : {};
+
+		el.removeAttribute( `data-${this.config.componentAttribute}` );
 
 		const Vue = await import('vue');
 
