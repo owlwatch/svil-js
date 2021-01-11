@@ -1,13 +1,18 @@
 {
-    "name": "svil",
-    "version": "1.0.3",
-    "homepage": "https://github.com/owlwatch/svil-js",
-    "description": "Javascript package for the Svil Wordpress library",
-    "main": "index.js",
-    "scripts": {
-      "test": "echo \"Error: no test specified\" && exit 1"
-    },
-    "author": "",
-    "license": "ISC"
+  "name": "svil",
+  "version": "1.0.4",
+  "homepage": "https://github.com/owlwatch/svil-js",
+  "description": "Javascript package for the Svil Wordpress library",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "deepmerge": "^4.2.2",
+    "document-ready": "^2.0.2",
+    "throttle-debounce": "^3.0.1",
+    "vue": "^2.6.12"
   }
-  
+}
