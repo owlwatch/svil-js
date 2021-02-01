@@ -18,7 +18,7 @@ class LayoutLoader {
 		documentReady(callback);
 	}
 
-	parse(){
+	parseDocument(){
 		this.layouts.forEach(async layout => {
 			let nodes = [];
 
