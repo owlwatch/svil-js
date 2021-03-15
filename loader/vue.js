@@ -54,7 +54,7 @@ class VueLoader {
 
 		el.removeAttribute( `data-${this.config.componentAttribute}` );
 
-		const Vue = this.getVue();
+		const Vue = await this.getVue();
 
 		const component = await this.config.components[name]();
 
