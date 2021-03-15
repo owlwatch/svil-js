@@ -54,12 +54,7 @@ class VueLoader {
 
 		el.removeAttribute( `data-${this.config.componentAttribute}` );
 
-		const Vue = await import('vue');
-
-		// Add a global event bus to the Vue prototype
-		if( !Vue.default.prototype.$eventBus ){
-			Vue.default.prototype.$eventBus = new Vue.default();
-		}
+		const Vue = this.getVue();
 
 		const component = await this.config.components[name]();
 
@@ -76,13 +71,29 @@ class VueLoader {
 			props.app = await this.app;
 		}
 
-		const v = new Vue.default({
+		const v = new Vue({
 			el: el,
 			render: function (h) {
 				return h(component.default, {props});
 			}
 		});
 
+	}
+
+	async getVue(){
+		if( this.Vue ){
+			return this.Vue;
+		}
+		if( this.config.Vue ){
+			this.Vue = this.config.Vue;
+		}
+		else {
+			this.Vue = (await import('vue')).default;
+		}
+		if( this.config.useEventBus && this.Vue.prototype ){
+			this.Vue.prototype.$eventBus = new this.Vue()
+		}
+		return this.Vue;
 	}
 
 }
