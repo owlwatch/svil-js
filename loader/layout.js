@@ -5,7 +5,7 @@ class LayoutLoader {
 
 	constructor(layouts){
 		this.layouts = layouts;
-		// once the page is loaded, check for layoutironment
+
 		const callback = throttle( 50, () => this.parseDocument() );
 		if (window.MutationObserver) {
 			const observer = new MutationObserver(callback);
@@ -44,10 +44,18 @@ class LayoutLoader {
 					node.setAttribute('data-layout-rendered', names.join(' '));
 				});
 				const module = await layout.import();
+
 				Array.prototype.forEach.call( nodes, node => {
+					let config = {};
+					if( layout.config ){
+						let attr = node.getAttribute(layout.config);
+						if( attr ){
+							config = JSON.parse(attr);
+						}
+					}
 					const m = (module.default || module);
-					if( m.init ) m.init(node);
-					if( m.render ) m.render(node);
+					if( m.init ) m.init(node, config);
+					if( m.render ) m.render(node, config);
 				});
 			}
 		});
