@@ -1,11 +1,11 @@
 {
   "name": "svil",
-  "version": "1.0.10",
+  "version": "1.0.13",
   "homepage": "https://github.com/owlwatch/svil-js",
   "description": "Javascript package for the Svil Wordpress library",
-  "main": "index.js",
+  "main": "dist/index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "build": "npx parcel build index.js"
   },
   "author": "",
   "license": "ISC",
@@ -14,5 +14,8 @@
     "document-ready": "^2.0.2",
     "throttle-debounce": "^3.0.1",
     "vue": "^2.6.12"
+  },
+  "devDependencies": {
+    "parcel-bundler": "^1.12.5"
   }
 }

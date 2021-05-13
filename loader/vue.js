@@ -78,6 +78,10 @@ class VueLoader {
 			}
 		});
 
+		if( window.jQuery ){
+			window.jQuery(v.$el).data('vue', v.$children[0]);
+		}
+
 	}
 
 	async getVue(){
@@ -86,6 +90,9 @@ class VueLoader {
 		}
 		if( this.config.Vue ){
 			this.Vue = this.config.Vue;
+		}
+		else if( this.config.vuePromise ){
+			this.Vue = await this.config.vuePromise();
 		}
 		else {
 			this.Vue = (await import('vue')).default;
