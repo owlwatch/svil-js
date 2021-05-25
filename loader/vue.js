@@ -7,7 +7,7 @@ const defaults = {
 	propsAttribute: 'vue-props',
 	enableConfig: false,
 	enableApp: false,
-	components: []
+	components: {}
 };
 
 class VueLoader {
@@ -45,6 +45,8 @@ class VueLoader {
 
 		const name = el.dataset[componentAttribute];
 
+		console.log(name);
+
 		if ('function' !== typeof this.config.components[name]) {
 			return;
 		}
@@ -71,15 +73,18 @@ class VueLoader {
 			props.app = await this.app;
 		}
 
-		const appConfig = {
+		const v = Vue.createApp ? (()=>{
+			const a = Vue.createApp(component.default, props);
+			a.mount(el);
+			return a;
+		})() : (() => new Vue({
 			el: el,
 			render: function (h) {
 				return h(component.default, {props});
 			}
-		};
-		const v = Vue.createApp ? Vue.createApp(appConfig) : new Vue(appConfig);
+		}))();
 
-		if( window.jQuery ){
+		if( window.jQuery && v.$children ){
 			window.jQuery(v.$el).data('vue', v.$children[0]);
 		}
 
@@ -94,6 +99,7 @@ class VueLoader {
 		}
 		else if( this.config.vuePromise ){
 			this.Vue = await this.config.vuePromise();
+			console.log( this.Vue );
 		}
 		else {
 			this.Vue = (await import('vue')).default;
