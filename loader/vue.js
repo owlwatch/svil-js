@@ -71,12 +71,13 @@ class VueLoader {
 			props.app = await this.app;
 		}
 
-		const v = new Vue({
+		const appConfig = {
 			el: el,
 			render: function (h) {
 				return h(component.default, {props});
 			}
-		});
+		};
+		const v = Vue.createApp ? Vue.createApp(appConfig) : new Vue(appConfig);
 
 		if( window.jQuery ){
 			window.jQuery(v.$el).data('vue', v.$children[0]);
