@@ -1,7 +1,8 @@
 import ready from 'document-ready';
 
 class EnvironmentLoader {
-	constructor(environments){
+	constructor(environments, config){
+
 		this.environments = environments;
 		// once the page is loaded, check for environment
 		ready(() => this.parse());

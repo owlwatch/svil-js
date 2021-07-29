@@ -1,19 +1,35 @@
 import documentReady from 'document-ready';
 import {throttle} from 'throttle-debounce';
 
+const defaults = {
+	buffer: 50,
+	observerOptions: {
+		childList: true,
+		subtree: true,
+		attributes: true
+	}
+}
 class LayoutLoader {
 
-	constructor(layouts){
+	constructor(layouts, config){
+		config = config || {};
+
+		this.config = {...defaults, ...config};
 		this.layouts = layouts;
 
-		const callback = throttle( 50, () => this.parseDocument() );
+		const callback = throttle( this.config.buffer, () => {
+			this.parseDocument()
+		});
 		if (window.MutationObserver) {
-			const observer = new MutationObserver(callback);
-			observer.observe(document.documentElement, {
-				childList: true,
-				subtree: true,
-				attributes: true
+			this.observer = new MutationObserver(()=>{
+				// clear the observer cache
+				this.observer.takeRecords();
+				callback();
 			});
+			this.observer.observe(
+				document.documentElement,
+				this.config.observerOptions
+			);
 		}
 		documentReady(callback);
 	}

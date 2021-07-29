@@ -7,22 +7,25 @@ const defaults = {
 	propsAttribute: 'vue-props',
 	enableConfig: false,
 	enableApp: false,
-	components: {}
+	components: {},
+	buffer: 50
 };
 
 class VueLoader {
 
 	constructor(config){
 		this.config = deepmerge( defaults, config );
-		const callback = throttle( 50, () => this.parseDocument() );
+		const callback = throttle( this.config.buffer, () => this.parseDocument() );
 
 		if (window.MutationObserver) {
-			const observer = new MutationObserver(callback);
-			observer.observe(document.documentElement, {
+			this.observer = new MutationObserver(()=>{
+				// clear the observer cache
+				this.observer.takeRecords();
+				callback();
+			});
+			this.observer.observe(document.documentElement, {
 				childList: true,
-				subtree: true,
-				attributes: true,
-				attributeFilter: [`data-${this.config.propsAttribute}`]
+				subtree: true
 			});
 		}
 
