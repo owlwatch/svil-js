@@ -48,8 +48,6 @@ class VueLoader {
 
 		const name = el.dataset[componentAttribute];
 
-		console.log(name);
-
 		if ('function' !== typeof this.config.components[name]) {
 			return;
 		}
@@ -102,7 +100,6 @@ class VueLoader {
 		}
 		else if( this.config.vuePromise ){
 			this.Vue = await this.config.vuePromise();
-			console.log( this.Vue );
 		}
 		else {
 			this.Vue = (await import('vue')).default;

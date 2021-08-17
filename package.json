@@ -1,6 +1,6 @@
 {
   "name": "svil",
-  "version": "1.0.16",
+  "version": "1.0.17",
   "homepage": "https://github.com/owlwatch/svil-js",
   "description": "Javascript package for the Svil Wordpress library",
   "main": "dist/index.js",
